@@ -1,6 +1,5 @@
 import json
 import pypinyin
-print(1)
 elements_chinese = [
     "氢", "氦", "锂", "铍", "硼", "碳", "氮", "氧", "氟", "氖",
     "钠", "镁", "铝", "硅", "磷", "硫", "氯", "氩", "钾", "钙",
