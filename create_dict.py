@@ -19,22 +19,13 @@ def create_dict(style, elements_chinese):
     # 确保 style 参数有效并映射到正确的 pypinyin.Style 枚举值
     if hasattr(pypinyin.Style, style.upper()):
         style_enum = getattr(pypinyin.Style, style.upper())
-    else:
-        print(f"Style '{style}' is not valid. Using DEFAULT.")
-        style_enum = pypinyin.Style.DEFAULT
-    
     pinyin = pypinyin.lazy_pinyin(''.join(elements_chinese), style=style_enum)
-    return pinyin
-pinyin = pypinyin.lazy_pinyin(
-    ''.join(elements_chinese), style=pypinyin.Style.FINALS_TONE3)
-print(pinyin)
-elements_pinyin = zip(elements_chinese, pinyin)
-elements_pinyin = dict(elements_pinyin)
-style_list = ['TONE3','DEFAULT','INITIALS','FINALS','FINALS_TONE3']
-with open('full_yunmu.json', 'w', encoding='utf-8') as f:
-    json.dump(elements_pinyin, f, ensure_ascii=False, indent=4)
-if os.path.exists('./pinyin_dict1'):
+    pinyin_dict = dict(zip(elements_chinese,pinyin))
+    return pinyin_dict
+
+style_list = ['TONE3','NORMAL','INITIALS','FINALS','FINALS_TONE3']
+if not os.path.exists('./pinyin_dict1'):
     os.mkdir('./pinyin_dict1')
 for pinyin_style in style_list:
     with open('./pinyin_dict1/'+pinyin_style+'.json','w',encoding='utf-8') as f:
-        json.dump(create_dict(pinyin_style,elements_chinese),f)
+        json.dump(create_dict(pinyin_style,elements_chinese),f,ensure_ascii=False)
